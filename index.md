@@ -1,6 +1,6 @@
-  # Comp Sci 30
+# Comp Sci 30
 
-  ## Demos
+## Demos
 - Moving Square
 
-  ## Projects
+## Projects
