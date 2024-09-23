@@ -16,18 +16,19 @@ function setup() {
 
 function draw() {
   background(220);
+  ball()
 
 }
 
 
-// function ball() {
-//   if (((mouseX <= windowWidth) && (mouseY === 0)) || ((mouseX === 0) && (mouseY <= windowHeight))) {
-//       diam = diam + 2
-//       circle(mouseX, mouseY, diam)
-//   }
-//   else {
-//     circle(mouseX, mouseY, diam)    
-//   }
+function ball() {
+  if (((mouseX <= windowWidth) && (mouseY === 0)) || ((mouseX === 0) && (mouseY <= windowHeight))) {
+      diam = diam + 2
+      circle(mouseX, mouseY, diam)
+  }
+  else {
+    circle(mouseX, mouseY, diam)    
+  }
 
   
-// }
+}
