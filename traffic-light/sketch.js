@@ -10,13 +10,13 @@
 let isRed = false;
 let isYellow = false;
 let isGreen = false;
-let yellowTime = 2000
-let goAndStopTime = 5000 //red and green times
+let yellowTime = 2000;
+let goAndStopTime = 5000; //red and green times
 let redSwitched = 
 
 function setup() {
   createCanvas(600, 600);
-}
+};
 
 function draw() {
   background(255);
@@ -30,21 +30,21 @@ function drawOutlineOfLights() {
   rect(width/2, height/2, 75, 200, 10);
 
   //lights
-  if ((millis() > yellowTime) && (millis() < goAndStopTime)) {
+  if (millis() > yellowTime && millis() < goAndStopTime) {
     fill("red");
     ellipse(width/2, height/2 - 65, 50, 50); //top
-    isRed = !isRed
+    isRed = !isRed;
   }
 
-  else if ((millis() < yellowTime)){
-    fill("yellow")
+  else if (millis() < yellowTime){
+    fill("yellow");
     ellipse(width/2, height/2, 50, 50); //middle
-    isYellow = !isYellow
+    isYellow = !isYellow;
   }
   
   else {
-    fill("green")
+    fill("green");
     ellipse(width/2, height/2 + 65, 50, 50); //bottom
-    isGreen = !isGreen
+    isGreen = !isGreen;
   }
 }
