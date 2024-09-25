@@ -5,7 +5,7 @@
 let spongebob;
 
 function preload() {
-  spongebob = loadImage("bob.webp")
+  spongebob = loadImage("bob.webp");
 }
 
 
@@ -15,5 +15,5 @@ function setup() {
 
 function draw() {
   background(220);
-  image(spongebob, mouseX, mouseY, spongebob.width * -.5, spongebob.height * 0.5);
+  image(spongebob, mouseX, mouseY, spongebob.width * -0.5, spongebob.height * 0.5);
 }

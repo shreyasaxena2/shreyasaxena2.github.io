@@ -6,7 +6,7 @@
 // - describe what you did to take this project "above and beyond"
 
 
-
+let medha;
 
 
 
@@ -15,12 +15,12 @@ function setup() {
 }
 
 function draw() {
-  background(220);
+  startScreen();
 
 }
 
 
-function ball() {
-
+function startScreen() {
+  background("#A7C7E7"); // pastel blue background
   
 }
