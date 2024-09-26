@@ -7,30 +7,35 @@
 
 
 let medha;
-let transition = false;
+let transition = true;
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
 }
-  
-function draw() {
+
+
+function draw() { 
   startScreen();
 }
 
 
 function startScreen() {
   background("#A7C7E7"); // pastel blue background
-  textSize(65)
-  text("PRESS THE SPACE BAR", (width/2), height/2);
+  textSize(65);
+  text("PRESS THE SPACE BAR", width/2, height/2);
   textAlign(CENTER, CENTER);  
-  // if (keyIsPressed === true) {
-  //   if (key === "space" ) {
-  //     background("pink");
-  //   }
+  keyPressed();
+  
 }
 
 
+function keyPressed() {
+  if (keyIsDown(32) && transition) {
+    background("pink");
+    transition = !transition;
+  }
+}
   
  
 
