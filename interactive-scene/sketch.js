@@ -7,43 +7,35 @@
 
 
 let medha;
-let transition = true;
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  startScreen();
+  keyPressed();
 }
 
 
 function draw() { 
-  startScreen();
+
 }
 
 
 function startScreen() {
   background("#A7C7E7"); // pastel blue background
+  textAlign(CENTER, CENTER);
   textSize(65);
   text("PRESS THE SPACE BAR", width/2, height/2);
-  textAlign(CENTER, CENTER);  
-  keyPressed();
   
 }
 
 
 function keyPressed() {
-  if (keyIsDown(32) && transition) {
+  if (keyIsDown(32)) {
     background("pink");
-    transition = !transition;
+
+    textAlign(CENTER, CENTER);
+    textSize(65);
+    text("HAPPY BIRTHDAY MEDHA", width/2, height/2);
   }
 }
-  
- 
-
-
-// function trans() {
-//   while (transition === true) {
-//     rotateY(frameCount / 30);
-//     textSize(65);
-//     text("HAPPY BIRTHDAY MEDHA", (width/2), height/2);
-//     textAlign(CENTER, CENTER);
-//   }
