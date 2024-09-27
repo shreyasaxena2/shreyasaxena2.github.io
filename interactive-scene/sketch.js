@@ -7,14 +7,12 @@
 
 
 let medha;
-let transition = true;
 
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   startScreen();
   keyPressed();
-
 }
 
 
@@ -24,6 +22,7 @@ function draw() {
 
 function startScreen() {
   background("#A7C7E7"); // pastel blue background
+  textAlign(CENTER, CENTER);
   textSize(65);
   text("PRESS THE SPACE BAR", (width/2), height/2); 
   textAlign(CENTER, CENTER);  
