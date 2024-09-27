@@ -12,32 +12,34 @@ let transition = true;
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  startScreen();
+  keyPressed();
+
 }
 
 
 function draw() { 
-  startScreen();
 }
 
 
 function startScreen() {
   background("#A7C7E7"); // pastel blue background
   textSize(65);
-  text("PRESS THE SPACE BAR", width/2, height/2);
+  text("PRESS THE SPACE BAR", (width/2), height/2); 
   textAlign(CENTER, CENTER);  
-  keyPressed();
-  
 }
 
-
-function keyPressed() {
-  if (keyIsDown(32) && transition) {
-    background("pink");
-    transition = !transition;
+function keyPressed() { 
+  if (keyIsDown(32) ) {
+    background("pink")   
+    textSize(65);
+    text("HAPPY BIRTHDAY MEDHA", (width/2), height/2);
+    textAlign(CENTER, CENTER);
   }
+  
 }
   
- 
+
 
 
 // function trans() {
@@ -47,3 +49,4 @@ function keyPressed() {
 //     text("HAPPY BIRTHDAY MEDHA", (width/2), height/2);
 //     textAlign(CENTER, CENTER);
 //   }
+ 
