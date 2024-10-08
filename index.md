@@ -6,11 +6,12 @@
 - [Traffic Light](traffic-light)
 - [Bouncing Balls](bouncing-balls)
 - [Generative Art](generative-art)
-- [Perlin Noise]
+- [Perlin Noise](perlin)
 - {Terrain Gemeration}c(Terrain)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
+- [Arrays and Object Notation](array-and-obj)
 
 
 
