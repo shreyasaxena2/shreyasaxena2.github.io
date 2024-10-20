@@ -79,12 +79,12 @@ function KeyPressed() {
 function showLittleMan() {
   image(player, playerX, playerY, playerSize, playerSize);
 
-  if (keyIsDown(LEFT_ARROW)) {
-    playerX -= 1
-  }
-  else if (keyIsDown(RIGHT_ARROW)) {
-    playerX += 1
-  }
+  // if (keyIsDown(LEFT_ARROW)) {
+  //   playerX -= playerSpeed
+  // }
+  // else if (keyIsDown(RIGHT_ARROW)) {
+  //   playerX += playerSpeed
+  // }
 }
 
 
