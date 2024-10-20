@@ -12,7 +12,17 @@
 let hailArray = [];
 let hail;
 let littleMan;
-let stopDistance = 50;
+let stopDistance = 100;
+let playerX = width - 150;
+let playerY = height - 150;
+let playerSize = 150;
+let playerSpeed = 5;
+
+
+function preload() {
+  player = loadImage("littleman.png");
+}
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -22,8 +32,9 @@ function setup() {
     createHail();
   }
 
-  // Optional: Create new hailstone every second
+  // Create new hailstone every 15 seconds
   window.setInterval(createHail, 15000);
+
 }
 
 function draw() {
@@ -41,6 +52,7 @@ function draw() {
   background(165);
   showHail();
   moveHail();
+  showLittleMan();
 }
 
 
@@ -62,6 +74,17 @@ function KeyPressed() {
     state = "begin activity";    
   }
   
+}
+
+function showLittleMan() {
+  image(player, playerX, playerY, playerSize, playerSize);
+
+  if (keyIsDown(LEFT_ARROW)) {
+    playerX -= 1
+  }
+  else if (keyIsDown(RIGHT_ARROW)) {
+    playerX += 1
+  }
 }
 
 
@@ -97,3 +120,5 @@ function createHail() {
   };
   hailArray.push(hail);
 }
+
+
