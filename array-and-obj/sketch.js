@@ -12,6 +12,7 @@ let hail;
 let player;
 let stopDistance = 75;
 let gameOver = false;
+let distance;
 
 
 
@@ -59,6 +60,10 @@ function draw() {
   showHail();
   moveHail();
   showAndMovePlayer();
+
+  if (gameOver) {
+
+  }
 }
 
 function showAndMovePlayer() {
@@ -131,5 +136,18 @@ function createHail() {
   hailArray.push(hail);
 }
 
+function playGame() {
+  for (let hail of hailArray) {
+    distance = dist(player.playerX, player.playerY, hail.x, hail.y);
 
+    if (distance < player.size / 2 + hail.radius) {
+      gameOver = true
+    }
+  }
+}
+
+
+function gameOverScreen() {
+  
+}
 
