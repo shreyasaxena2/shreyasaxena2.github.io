@@ -5,23 +5,19 @@
 // Extra for Experts:
 // - describe what you did to take this project "above and beyond"
 
-// https://editor.p5js.org/arthurfincham/sketches/D-3Ty82rT source code
-
 
 // let state = "start";
 let hailArray = [];
 let hail;
-let littleMan;
-let stopDistance = 100;
-let playerX = width - 150;
-let playerY = height - 150;
-let playerSize = 150;
-let playerSpeed = 5;
+let player;
+let stopDistance = 75;
+let gameOver = false;
 
 
-function preload() {
-  player = loadImage("littleman.png");
-}
+
+// function preload() {
+//   player = loadImage("littleman.png");
+// }
 
 
 function setup() {
@@ -35,7 +31,17 @@ function setup() {
   // Create new hailstone every 15 seconds
   window.setInterval(createHail, 15000);
 
+  player = {
+    playerX: width - 75,
+    playerY: height - 75,
+    size: 75,
+    speed: 5,
+  }
+
+  
 }
+
+
 
 function draw() {
 //   if (state === "start") {
@@ -49,13 +55,26 @@ function draw() {
 
 
   // Show and move the hailstones
-  background(165);
+  background(155);
   showHail();
   moveHail();
-  showLittleMan();
+  showAndMovePlayer();
 }
 
+function showAndMovePlayer() {
+  fill(0, 0, 255);
+  noStroke();
+  rect(player.playerX, player.playerY, player.size, player.size);
 
+  if (keyIsDown(LEFT_ARROW)) {
+    player.playerX -= player.speed;
+  }
+  else if (keyIsDown(RIGHT_ARROW)) {
+    player.playerX += player.speed;
+  }
+
+  player.playerX = constrain(player.playerX, player.size / 10, width - player.playerX / 10);
+}
 
 
 function startScreen() {
@@ -67,24 +86,14 @@ function startScreen() {
   textSize(30);
   text("Press SPACE to Start", width / 2, height / 2 + 20);
 
+
 }
 
-function KeyPressed() {
+function keyPressed() {
   if (key === " ") {
     state = "begin activity";    
   }
   
-}
-
-function showLittleMan() {
-  image(player, playerX, playerY, playerSize, playerSize);
-
-  // if (keyIsDown(LEFT_ARROW)) {
-  //   playerX -= playerSpeed
-  // }
-  // else if (keyIsDown(RIGHT_ARROW)) {
-  //   playerX += playerSpeed
-  // }
 }
 
 
@@ -93,6 +102,7 @@ function showHail() {
     noStroke();
     fill(hail.r, hail.g, hail.b);
     circle(hail.x, hail.y, hail.radius * 2);
+    // image(player, 808, 794, 150, 150);
   }
 }
 
@@ -109,7 +119,7 @@ function moveHail() {
 }
 
 function createHail() {
-  let hail = {
+  hail = {
     x: random(0, width),
     y: random(0, height),
     radius: random(10, 20),
@@ -120,5 +130,6 @@ function createHail() {
   };
   hailArray.push(hail);
 }
+
 
 
