@@ -15,6 +15,10 @@ let gameOver = false;
 let distance;
 let gameWon = false;
 let moved = false;
+let bg;
+let lost;
+let winsc;
+let start;
 
 
 
@@ -22,16 +26,19 @@ function preload() {
   // player = loadImage("littleman.png");
   bg = loadImage("background.jpg");
   lost = loadImage("gameoverscreen.jpeg");
+  winsc = loadImage("winscreen.webp");
+  start = loadImage("startsc.jpeg");
 }
 
 
 function setup() {
-  createCanvas(windowWidth, windowHeight);
+  createCanvas(windowWidth, windowHeight, WEBGL);
   
   // Create initial hailstones
   for (let i = 0; i < 15; i++) {
     createHail();
   }
+
 
   // Create new hailstone every 15 seconds
   window.setInterval(createHail, 15000);
@@ -74,13 +81,13 @@ function draw() {
 
 
 function startScreen() {
-  background(100, 150, 200);  // Set a background for the start screen
+  background(start);  // Set a background for the start screen
   textAlign(CENTER);
   fill(255);
-  textSize(50);
-  text("Hail Simulation", width / 2, height / 2 - 50);
+  textSize(75);
+  text("Hail Simulation", width / 2, height / 2 - 150);
   textSize(30);
-  text("Press SPACE to Start", width / 2, height / 2 + 20);
+  text("Press SPACE to Start", width / 2, height / 2 + 150);
 
 
 }
@@ -173,12 +180,10 @@ function checkIfWon() {
 
 
 function showWinnerScreen() {
-  background(0, 255, 0);
+  background(winsc);
   textAlign(CENTER);
   fill(255);
-  textSize(50);
-  text("You Win!", width / 2, height / 2);
   textSize(30);
-  text("Refresh to Play Again", width / 2, height / 2 + 50);
+  text("Refresh to Play Again", width / 2, height / 2 + 200);
 }
 
