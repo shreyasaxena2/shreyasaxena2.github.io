@@ -18,9 +18,11 @@ let moved = false;
 
 
 
-// function preload() {
-//   player = loadImage("littleman.png");
-// }
+function preload() {
+  // player = loadImage("littleman.png");
+  bg = loadImage("background.jpg");
+  lost = loadImage("gameoverscreen.jpeg");
+}
 
 
 function setup() {
@@ -51,7 +53,7 @@ function draw() {
     startScreen();
   }
   else if (state === "begin activity") {
-    background(155);
+    background(bg);
     showHail();
     moveHail();
   }
@@ -133,9 +135,9 @@ function createHail() {
     x: random(0, width),
     y: random(0, height),
     radius: random(10, 20),
-    r: random(255),
-    g: random(255),
-    b: random(255),
+    r: 188,
+    g: 188,
+    b: 183,
     speed: random(2, 5)  // Add a random falling speed
   };
   hailArray.push(hail);
@@ -151,18 +153,15 @@ function playGame() {
       }
     }
   }
-
 }
 
 
 function gameOverScreen() {
-  background(255, 0, 0);
+  background(lost);
   textAlign(CENTER);
   fill(255);
-  textSize(50);
-  text("Game Over", width / 2, height / 2);
   textSize(30);
-  text("Refresh to Restart", width / 2, height / 2 + 50);
+  text("Refresh to Restart", width / 2, height / 2 + 300);
 }
 
 
