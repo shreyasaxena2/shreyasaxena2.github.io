@@ -6,13 +6,15 @@
 // - describe what you did to take this project "above and beyond"
 
 
-// let state = "start";
+let state = "start";
 let hailArray = [];
 let hail;
 let player;
 let stopDistance = 75;
 let gameOver = false;
 let distance;
+let gameWon = false;
+let moved = false;
 
 
 
@@ -37,7 +39,7 @@ function setup() {
     playerY: height - 75,
     size: 75,
     speed: 5,
-  }
+  };
 
   
 }
@@ -45,41 +47,28 @@ function setup() {
 
 
 function draw() {
-//   if (state === "start") {
-//     startScreen();
-//   }
-//   else if (state === "begin activity") {
-//     background(165);
-//     showHail();
-//     moveHail();
-//   }
+  if (state === "start") {
+    startScreen();
+  }
+  else if (state === "begin activity") {
+    background(155);
+    showHail();
+    moveHail();
+  }
 
-
-  // Show and move the hailstones
-  background(155);
-  showHail();
-  moveHail();
-  showAndMovePlayer();
-
-  if (gameOver) {
-
+  if (!gameOver && !gameWon) {
+    showAndMovePlayer();
+    playGame();
+    checkIfWon();
+  }
+  else if (gameOver) {
+    gameOverScreen();
+  }
+  else if (gameWon) {
+    showWinnerScreen();
   }
 }
 
-function showAndMovePlayer() {
-  fill(0, 0, 255);
-  noStroke();
-  rect(player.playerX, player.playerY, player.size, player.size);
-
-  if (keyIsDown(LEFT_ARROW)) {
-    player.playerX -= player.speed;
-  }
-  else if (keyIsDown(RIGHT_ARROW)) {
-    player.playerX += player.speed;
-  }
-
-  player.playerX = constrain(player.playerX, player.size / 10, width - player.playerX / 10);
-}
 
 
 function startScreen() {
@@ -101,13 +90,29 @@ function keyPressed() {
   
 }
 
+function showAndMovePlayer() {
+  fill(0, 0, 255);
+  noStroke();
+  rect(player.playerX, player.playerY, player.size, player.size);
+
+  if (keyIsDown(LEFT_ARROW)) {
+    player.playerX -= player.speed;
+    moved = true;
+  }
+  else if (keyIsDown(RIGHT_ARROW)) {
+    player.playerX += player.speed;
+    moved = true;
+  }
+
+  player.playerX = constrain(player.playerX, player.size / 10, width - player.playerX / 10);
+}
+
 
 function showHail() {
   for (let hail of hailArray) {
     noStroke();
     fill(hail.r, hail.g, hail.b);
     circle(hail.x, hail.y, hail.radius * 2);
-    // image(player, 808, 794, 150, 150);
   }
 }
 
@@ -137,17 +142,44 @@ function createHail() {
 }
 
 function playGame() {
-  for (let hail of hailArray) {
-    distance = dist(player.playerX, player.playerY, hail.x, hail.y);
-
-    if (distance < player.size / 2 + hail.radius) {
-      gameOver = true
+  if (moved) {
+    for (let hail of hailArray) {
+      distance = dist(player.playerX, player.playerY, hail.x, hail.y);
+  
+      if (distance < player.size / 2 + hail.radius) {
+        gameOver = true;
+      }
     }
   }
+
 }
 
 
 function gameOverScreen() {
-  
+  background(255, 0, 0);
+  textAlign(CENTER);
+  fill(255);
+  textSize(50);
+  text("Game Over", width / 2, height / 2);
+  textSize(30);
+  text("Refresh to Restart", width / 2, height / 2 + 50);
+}
+
+
+function checkIfWon() {
+  if (player.playerX <= player.size / 10) {
+    gameWon = true;
+  }
+}
+
+
+function showWinnerScreen() {
+  background(0, 255, 0);
+  textAlign(CENTER);
+  fill(255);
+  textSize(50);
+  text("You Win!", width / 2, height / 2);
+  textSize(30);
+  text("Refresh to Play Again", width / 2, height / 2 + 50);
 }
 
