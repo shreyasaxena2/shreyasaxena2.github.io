@@ -10,6 +10,7 @@
 - [Terrain Generation](Terrain)
 - [Bubble Movement](bubble-movement)
 - [Translate and Rotate](rotate)
+- [Grid Demo](grid-demo)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
