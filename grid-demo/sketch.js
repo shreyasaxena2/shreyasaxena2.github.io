@@ -2,17 +2,16 @@
 // Dan Schellenberg
 // Oct 22, 2024
 
-// if hardcoding the grid, use this:
-// let grid = [[1, 0, 0, 1],
-//             [0, 1, 1, 0],
-//             [1, 0, 1, 1],
-//             [1, 1, 1, 0]];
+// if hardcoding the grid, use something like this:
+// let grid = [[1, 0, 1, 0],
+//             [0, 0, 1, 1],
+//             [1, 1, 1, 0],
+//             [0, 1, 1, 0]];
 
 let grid;
-let cellSize;
 const GRID_SIZE = 10;
-let color;
-let shouldToggleNeighbhours = true;
+let cellSize;
+let shouldToggleNeighbours = true;
 
 function setup() {
   if (windowWidth < windowHeight) {
@@ -25,8 +24,7 @@ function setup() {
   grid = generateRandomGrid(GRID_SIZE, GRID_SIZE);
 }
 
-
-function windowResize() {
+function windowResized() {
   if (windowWidth < windowHeight) {
     resizeCanvas(windowWidth, windowWidth);
   }
@@ -36,43 +34,38 @@ function windowResize() {
   cellSize = height/GRID_SIZE;
 }
 
-
 function draw() {
   background(220);
   displayGrid();
 }
 
-
 function mousePressed() {
   let x = Math.floor(mouseX/cellSize);
   let y = Math.floor(mouseY/cellSize);
 
-  // toggle self
+  //toggle self
   toggleCell(x, y);
 
-  if (shouldToggleNeighbhours) {
-  // toggle others
+  //toggle neighbours
+  if (shouldToggleNeighbours) {
     toggleCell(x + 1, y);
     toggleCell(x - 1, y);
-    toggleCell(x, y - 1);
     toggleCell(x, y + 1);
+    toggleCell(x, y - 1);
   }
-
 }
 
-function toggleCell() {
-  // make sure cell to be toggle exists
+function toggleCell(x, y) {
+  //make sure the cell you're toggling is in the grid
   if (x >= 0 && y >= 0 && x < GRID_SIZE && y < GRID_SIZE) {
     if (grid[y][x] === 1) {
       grid[y][x] = 0;
     }
-    else if (grid[y][x] === 0) {
+    else {
       grid[y][x] = 1;
     }
   }
-
 }
-
 
 function keyPressed() {
   if (key === "r") {
@@ -82,10 +75,9 @@ function keyPressed() {
     grid = generateEmptyGrid(GRID_SIZE, GRID_SIZE);
   }
   if (key === "n") {
-    shouldToggleNeighbhours = !shouldToggleNeighbhours;
+    shouldToggleNeighbours = !shouldToggleNeighbours;
   }
 }
-
 
 function displayGrid() {
   for (let y = 0; y < GRID_SIZE; y++) {
@@ -101,13 +93,12 @@ function displayGrid() {
   }
 }
 
-
 function generateRandomGrid(cols, rows) {
   let newGrid = [];
   for (let y = 0; y < rows; y++) {
     newGrid.push([]);
     for (let x = 0; x < cols; x++) {
-      //make it a 1 half the time, a 0 half the time
+      //choose either 0 or 1, each 50% of the time
       if (random(100) < 50) {
         newGrid[y].push(1);
       }
