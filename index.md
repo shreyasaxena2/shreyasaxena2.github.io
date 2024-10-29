@@ -13,10 +13,12 @@
 - [Grid Demo](grid-demo)
 - [Game Of Life](game-of-life)
 - [Rectangle Grid](rect-grid)
+- [Move Character In Grid](character-in-grid)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
 - [Arrays and Object Notation](array-and-obj)
+- [Grid Based Assingment](grid-assingment)
 
 
 
