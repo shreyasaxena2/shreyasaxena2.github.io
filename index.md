@@ -15,6 +15,7 @@
 - [Rectangle Grid](rect-grid)
 - [Move Character In Grid](character-in-grid)
 
+
 ## Projects
 - [Interactive Scene](interactive-scene)
 - [Arrays and Object Notation](array-and-obj)

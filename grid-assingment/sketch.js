@@ -35,7 +35,7 @@ function generateGrid(rows, columns) {
   let theGrid = [];
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < columns; x++){
-      if (100 < 50) {
+      if (random(100) < 50) {
         theGrid.push(CAN_MOVE);
       }
       else {
