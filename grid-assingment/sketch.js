@@ -11,6 +11,9 @@ const GRID_SIZE = 20;
 const CAN_MOVE = 1;
 const WALL = 0;
 
+let grid = [];
+
+
 
 function preload() {
   player = loadImage("player-pac-man.png");
