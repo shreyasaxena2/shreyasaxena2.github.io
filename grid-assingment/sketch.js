@@ -44,7 +44,7 @@ function generateGrid(rows, columns) {
       else {
         theGrid.push(WALL);
       }
-    }
+     
   }
 
 }
