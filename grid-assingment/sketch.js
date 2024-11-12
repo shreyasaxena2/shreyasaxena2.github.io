@@ -7,6 +7,8 @@
 
 
 let player;
+let cols;
+let rows;
 const GRID_SIZE = 20;
 const CAN_MOVE = 1;
 const WALL = 0;
@@ -36,14 +38,37 @@ function setup() {
     createCanvas(windowHeight, windowHeight);
   }
 
+  cols = grid[0].length;
+  rows = grid.length;
+
+  player = {
+    x: 0,
+    y: 0,
+  };
+
+  exit = {
+    exitX: cols - 1,
+    exitY: rows - 1,
+  };
 }
 
 function draw() {
-  background(220);
+  startScreen();
+  displayGrid();
 }
 
 function startScreen() {
-  
+  background("light pink");  // Set a background for the start screen
+
+  // Aligns the text and prints it onto the canvas
+  textAlign(CENTER);
+  fill(255);
+  textSize(75);
+  text("Maze, Gaze", width / 2, height / 2 - 150);
+  textSize(30);
+  text("Press SPACE to Start", width / 2, height / 2 + 150);
+  text("Use left arrow to move left and right arrow to move right", width / 2, height / 2 + 200);
+
 }
 
 
