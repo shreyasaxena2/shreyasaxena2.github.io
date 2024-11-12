@@ -11,14 +11,16 @@ const GRID_SIZE = 20;
 const CAN_MOVE = 1;
 const WALL = 0;
 
-let grid = [[0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 1, 1],
-  [0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
-  [1, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0],
-  [0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 1, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0],
-  [0, 0, 1, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1],
-  [0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0]];
+let grid = [[0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+  [0, 1, 0, 1, 0, 1, 0, 1, 0, 0],
+  [0, 0, 0, 1, 0, 0, 0, 1, 1, 1],
+  [1, 1, 0, 1, 1, 1, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 1, 1, 1, 0, 1],
+  [0, 1, 1, 1, 0, 0, 0, 1, 0, 0],
+  [0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
+  [0, 0, 0, 1, 0, 1, 1, 0, 0, 0],
+  [1, 1, 0, 1, 0, 0, 0, 1, 0, 1],
+  [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]];
 
 
 
@@ -40,19 +42,22 @@ function draw() {
   background(220);
 }
 
+function startScreen() {
+  
+}
 
-function generateGrid(rows, columns) {
-  let theGrid = [];
+
+function displayGrid() {
   for (let y = 0; y < rows; y++) {
-    for (let x = 0; x < columns; x++){
-      if (random(100) < 50) {
-        theGrid.push(CAN_MOVE);
+    for (let x = 0; x < cols; x++) {
+      if (grid[y][x] === 1) {
+        fill(0);
       }
       else {
-        theGrid.push(WALL);
+        fill(200);
       }
-     
+      stroke(255);
+      rect(x * cellSize, y * cellSize, cellSize, cellSize);
     }
-
   }
 }
