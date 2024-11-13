@@ -9,26 +9,36 @@
 let player;
 let cols;
 let rows;
-const GRID_SIZE = 20;
+const CELL_SIZE = 20;
 const CAN_MOVE = 1;
 const WALL = 0;
+let gameStarted = false;
+player = {
+  x: 0,
+  y: 0,
+};
+exit = {
+  exitX: grid[0].length - 1,
+  exitY: grid.length - 1,
+};
+let gameOver = false;
+let floodStarted = false;
 
-let grid = [[0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
-  [0, 1, 0, 1, 0, 1, 0, 1, 0, 0],
-  [0, 0, 0, 1, 0, 0, 0, 1, 1, 1],
-  [1, 1, 0, 1, 1, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 1, 1, 1, 0, 1],
-  [0, 1, 1, 1, 0, 0, 0, 1, 0, 0],
-  [0, 1, 0, 0, 0, 1, 0, 0, 1, 0],
-  [0, 0, 0, 1, 0, 1, 1, 0, 0, 0],
-  [1, 1, 0, 1, 0, 0, 0, 1, 0, 1],
-  [0, 0, 0, 0, 1, 0, 0, 0, 0, 0]];
+
+let grid = [
+  [1, 1, 1, 0, 0, 1, 1, 0, 0, 0],
+  [0, 0, 1, 0, 1, 1, 1, 1, 0, 0],
+  [1, 1, 1, 1, 1, 0, 1, 0, 1, 0],
+  [0, 1, 0, 0, 1, 1, 1, 0, 1, 1],
+  [0, 1, 1, 0, 0, 0, 1, 0, 0, 0],
+  [1, 0, 1, 1, 1, 1, 1, 1, 1, 1],
+  [0, 1, 1, 0, 1, 0, 0, 0, 1, 0],
+  [1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
+  [0, 1, 1, 1, 0, 1, 1, 1, 0, 1],
+  [1, 1, 0, 1, 1, 1, 0, 1, 1, 1],
+];
 
 
-
-function preload() {
-  player = loadImage("player-pac-man.png");
-}
 
 function setup() {
   if (windowWidth < windowHeight) {
@@ -40,21 +50,21 @@ function setup() {
 
   cols = grid[0].length;
   rows = grid.length;
-
-  player = {
-    x: 0,
-    y: 0,
-  };
-
-  exit = {
-    exitX: cols - 1,
-    exitY: rows - 1,
-  };
 }
 
 function draw() {
-  startScreen();
-  displayGrid();
+  if (!gameStarted) {
+    startScreen();
+  }
+  else if (gameOver) {
+    endScreen();
+  }
+  else {
+    displayGrid();
+    showPlayer();
+    displayExit();
+  }
+
 }
 
 function startScreen() {
@@ -72,6 +82,13 @@ function startScreen() {
 }
 
 
+function keyPressed() {
+  if (!gameStarted && key === " ") {
+    gameStarted = true;
+  }
+}
+
+
 function displayGrid() {
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
@@ -82,7 +99,35 @@ function displayGrid() {
         fill(200);
       }
       stroke(255);
-      rect(x * cellSize, y * cellSize, cellSize, cellSize);
+      rect(x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
     }
+  }
+}
+
+function showPlayer() {
+  fill("blue");
+  noStroke();
+  rect(player.x * CELL_SIZE, player.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
+
+function displayExit() {
+  fill("yellow");
+  noStroke();
+  rect(exit.exitX * CELL_SIZE, exit.exitY * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
+
+function endScreen() {
+  background("light blue");
+  textAlign(CENTER);
+  fill(0);
+  textSize(32);
+  if (player.x === exit.exitX && player.y === exit.exitY) {
+    text("You escaped the maze!", width / 2, height / 2);
+  }
+  else {
+    text("The flood caught you!", width / 2, height / 2);
+    text("Press Ctrl + R to try again!", width / 2, height / 2 + 20);
   }
 }
