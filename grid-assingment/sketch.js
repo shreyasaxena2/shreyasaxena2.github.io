@@ -1,4 +1,4 @@
-// Grid Based Game - pac man
+// Grid Based Game
 // Shreya Saxena 
 // Date
 //
@@ -115,6 +115,11 @@ function displayExit() {
   fill("yellow");
   noStroke();
   rect(exit.exitX * CELL_SIZE, exit.exitY * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+}
+
+
+function displayFlood() {
+  
 }
 
 
