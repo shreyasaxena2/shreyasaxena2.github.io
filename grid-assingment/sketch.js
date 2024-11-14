@@ -1,10 +1,19 @@
-const COLS = hardcodedGrid[0].length;
-const ROWS = hardcodedGrid.length;
-const CELL_SIZE = 40;
+// Escape the Maze Game
+// Shreya Saxena
+// 11th November, 2024
+//
+// Extra for Experts:
+// - used the function filter()
+// - used the function some()
+// - used text features to enhance my project
+
+let cols;
+let rows;
+const CELL_SIZE = 50;
 let player;
 let exit;
 let floodCells = [];
-let floodInterval = 1200; // Interval in milliseconds between floods
+let floodInterval = 450; // Interval in milliseconds between floods
 let gameStarted = false;
 let gameOver = false;
 let floodStarted = false;
@@ -26,14 +35,23 @@ let hardcodedGrid = [
   [0, 1, 0, 1, 1, 1, 0, 1, 1, 1],
 ];
 
+
+function preload() {
+  floodImg = loadImage("floodImg.jpg");
+  wallImg = loadImage("wall-Img.png");
+}
+
+
 function setup() {
-  createCanvas(400, 400); 
+  createCanvas(550, 550); 
+  cols = hardcodedGrid[0].length;
+  rows = hardcodedGrid.length;
   player = { 
     x: 0, 
     y: 0 }; // Start position
   exit = {
-    x: COLS - 1, 
-    y: ROWS - 1 }; // Exit position
+    x: cols - 1, 
+    y: rows - 1 }; // Exit position
   floodCells.push({ x: player.x, y: player.y }); // Start flooding from the player position
 }
 
@@ -50,22 +68,12 @@ function draw() {
     drawPlayer();
     drawExit();
     drawFlood();
-
-    // Check for win or loss
-    if (player.x === exit.x && player.y === exit.y) {
-      gameOver = true;
-    }
-    else if (isFlooded(player.x, player.y) && playerMoves >= 3) {
-      gameOver = true;
-    }
-
-    // Handle the flood logic only after the player has moved
-    if (floodStarted && playerMoves >= 3 && millis() - lastFloodTime > floodInterval) {
-      floodMaze();
-      lastFloodTime = millis(); // Update the last flood time
-    }
+    winOrLose();
+    floodTime(); 
   }
 }
+
+
 
 function startScreen() {
   background("lightblue");
@@ -74,7 +82,7 @@ function startScreen() {
   textSize(24);
   text("Maze Escape", width / 2, height / 2 - 40);
   textSize(16);
-  text("Press any arrow key to start", width / 2, height / 2 + 10);
+  text("Press the SPACE key and then any arrow to start", width / 2, height / 2 + 10);
   text("Move quickly to avoid the flood!", width / 2, height / 2 + 40);
 }
 
@@ -92,17 +100,19 @@ function endScreen() {
 }
 
 function drawGrid() {
-  for (let y = 0; y < ROWS; y++) {
-    for (let x = 0; x < COLS; x++) {
-      if (grid[y][x] === 1) {
-        fill(200); // Light gray for paths
+  for (let y = 0; y < rows; y++) {
+    for (let x = 0; x < cols; x++) {
+      if (hardcodedGrid[y][x] === 1) {
+        fill(255); // White for walkable paths
       } 
       else {
-        fill(0); // Black for walls
+        image(wallImg, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE); // Black for walls
       }
+      stroke(0); // Black grid lines
     }
   }
 }
+
 
 function drawPlayer() {
   fill("blue");
@@ -119,7 +129,7 @@ function drawExit() {
 function drawFlood() {
   fill(150, 0, 255, 100);
   for (let cell of floodCells) {
-    rect(cell.x * CELL_SIZE, cell.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+    image(floodImg, cell.x * CELL_SIZE, cell.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
   }
 }
 
@@ -129,13 +139,13 @@ function isFlooded(x, y) {
 
 function floodMaze() {
   let floodedCount = floodCells.length;
-  if (floodedCount < COLS * ROWS - 1) {
+  if (floodedCount < cols * rows - 1) {
     // Get the last flooded cell
     let currentFloodCell = floodCells[floodedCount - 1];
     let neighbors = getNeighbors(currentFloodCell.x, currentFloodCell.y);
 
     // Filter only the valid (walkable) neighbors
-    let validNeighbors = neighbors.filter(cell => grid[cell.y][cell.x] === 1 && !isFlooded(cell.x, cell.y));
+    let validNeighbors = neighbors.filter(cell => hardcodedGrid[cell.y][cell.x] === 1 && !isFlooded(cell.x, cell.y));
 
     // Add each valid neighbor to the floodCells array individually
     for (let i = 0; i < validNeighbors.length; i++) {
@@ -150,13 +160,13 @@ function getNeighbors(x, y) {
   if (x > 0) {
     neighbors.push({ x: x - 1, y });
   } // Left
-  if (x < COLS - 1) {
+  if (x < cols - 1) {
     neighbors.push({ x: x + 1, y });
   } // Right
   if (y > 0) {
     neighbors.push({ x, y: y - 1 });
   } // Up
-  if (y < ROWS - 1) {
+  if (y < rows - 1) {
     neighbors.push({ x, y: y + 1 });
   } // Down
   return neighbors;
@@ -199,8 +209,28 @@ function movePlayer(dx, dy) {
   let newY = player.y + dy;
 
   // Move only if within bounds and not a wall
-  if (newX >= 0 && newX < COLS && newY >= 0 && newY < ROWS && grid[newY][newX] === 1) {
+  if (newX >= 0 && newX < cols && newY >= 0 && newY < rows && hardcodedGrid[newY][newX] === 1) {
     player.x = newX;
     player.y = newY;
+  }
+}
+
+
+function winOrLose() {
+  // Check for win or loss
+  if (player.x === exit.x && player.y === exit.y) {
+    gameOver = true;
+  }
+  else if (isFlooded(player.x, player.y) && playerMoves >= 3) {
+    gameOver = true;
+  }
+}
+
+
+function floodTime() {
+  // Handle the flood logic only after the player has moved
+  if (floodStarted && playerMoves >= 3 && millis() - lastFloodTime > floodInterval) {
+    floodMaze();
+    lastFloodTime = millis(); // Update the last flood time
   }
 }
