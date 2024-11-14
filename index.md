@@ -15,6 +15,7 @@
 - [Rectangle Grid](rect-grid)
 - [Move Character In Grid](character-in-grid)
 - [Walker OOP](walker-oop)
+- [Walker OOP Array](walker-oop-array)
 
 
 ## Projects

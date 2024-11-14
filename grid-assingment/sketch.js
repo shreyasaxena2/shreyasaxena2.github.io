@@ -12,6 +12,9 @@ let rows;
 const CELL_SIZE = 50;
 let player;
 let exit;
+let floodImg;
+let wallImg;
+let startSc;
 let floodCells = [];
 let floodInterval = 450; // Interval in milliseconds between floods
 let gameStarted = false;
@@ -106,9 +109,8 @@ function drawGrid() {
         fill(255); // White for walkable paths
       } 
       else {
-        image(wallImg, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE); // Black for walls
+        image(wallImg, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE); // Wood for walls
       }
-      stroke(0); // Black grid lines
     }
   }
 }
@@ -121,7 +123,7 @@ function drawPlayer() {
 }
 
 function drawExit() {
-  fill("green");
+  fill("lightcoral");
   noStroke();
   rect(exit.x * CELL_SIZE, exit.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
@@ -173,7 +175,7 @@ function getNeighbors(x, y) {
 }
 
 function keyPressed() {
-  if (!gameStarted) {
+  if (!gameStarted && key === " ") {
     gameStarted = true;
   }
 
