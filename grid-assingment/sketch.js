@@ -7,14 +7,21 @@
 // - used the function some()
 // - used text features to enhance my project
 
+
+
+// Setting variables
 let cols;
 let rows;
 const CELL_SIZE = 50;
 let player;
 let exit;
+const PATH = 1;
+const WALL = 0;
 let floodImg;
 let wallImg;
-let startSc;
+let pathTile;
+let playerImg;
+let exitImg;
 let floodCells = [];
 let floodInterval = 450; // Interval in milliseconds between floods
 let gameStarted = false;
@@ -40,8 +47,11 @@ let hardcodedGrid = [
 
 
 function preload() {
-  floodImg = loadImage("floodImg.jpg");
+  floodImg = loadImage("floodImg.png");
   wallImg = loadImage("wall-Img.png");
+  pathTile = loadImage("walkableImg.jpg");
+  playerImg = loadImage("playerImg.png");
+  exitImg = loadImage("exitImg.png");
 }
 
 
@@ -70,7 +80,11 @@ function draw() {
     drawGrid();
     drawPlayer();
     drawExit();
-    drawFlood();
+
+    if (playerMoves === 3) {
+      drawFlood();
+    }
+
     winOrLose();
     floodTime(); 
   }
@@ -86,7 +100,8 @@ function startScreen() {
   text("Maze Escape", width / 2, height / 2 - 40);
   textSize(16);
   text("Press the SPACE key and then any arrow to start", width / 2, height / 2 + 10);
-  text("Move quickly to avoid the flood!", width / 2, height / 2 + 40);
+  text("Use the Left, Right, Up and Down arrow to naviagte the maze", width / 2, height / 2 + 30);
+  text("Move quickly to avoid the lava!", width / 2, height / 2 + 50);
 }
 
 function endScreen() {
@@ -95,18 +110,20 @@ function endScreen() {
   fill(0);
   textSize(32);
   if (player.x === exit.x && player.y === exit.y) {
-    text("You Escaped!", width / 2, height / 2);
+    text("The lava did not cook you!", width / 2, height / 2);
+    text("Good Job!", width / 2, height / 2 + 40);
   }
   else {
-    text("You were caught by the flood!", width / 2, height / 2);
+    text("The lava cooked you!", width / 2, height / 2);
+    text("To try again, press Ctrl + R.", width / 2, height / 2 + 40);
   }
 }
 
 function drawGrid() {
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
-      if (hardcodedGrid[y][x] === 1) {
-        fill(255); // White for walkable paths
+      if (hardcodedGrid[y][x] === PATH) {
+        image(pathTile, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE); // White for walkable paths
       } 
       else {
         image(wallImg, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE); // Wood for walls
@@ -119,13 +136,13 @@ function drawGrid() {
 function drawPlayer() {
   fill("blue");
   noStroke();
-  rect(player.x * CELL_SIZE, player.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+  image(playerImg, player.x * CELL_SIZE, player.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
 function drawExit() {
   fill("lightcoral");
   noStroke();
-  rect(exit.x * CELL_SIZE, exit.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+  image(exitImg, exit.x * CELL_SIZE, exit.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
 function drawFlood() {
@@ -147,7 +164,7 @@ function floodMaze() {
     let neighbors = getNeighbors(currentFloodCell.x, currentFloodCell.y);
 
     // Filter only the valid (walkable) neighbors
-    let validNeighbors = neighbors.filter(cell => hardcodedGrid[cell.y][cell.x] === 1 && !isFlooded(cell.x, cell.y));
+    let validNeighbors = neighbors.filter(cell => hardcodedGrid[cell.y][cell.x] === PATH && !isFlooded(cell.x, cell.y));
 
     // Add each valid neighbor to the floodCells array individually
     for (let i = 0; i < validNeighbors.length; i++) {
@@ -211,7 +228,7 @@ function movePlayer(dx, dy) {
   let newY = player.y + dy;
 
   // Move only if within bounds and not a wall
-  if (newX >= 0 && newX < cols && newY >= 0 && newY < rows && hardcodedGrid[newY][newX] === 1) {
+  if (newX >= 0 && newX < cols && newY >= 0 && newY < rows && hardcodedGrid[newY][newX] === PATH) {
     player.x = newX;
     player.y = newY;
   }
