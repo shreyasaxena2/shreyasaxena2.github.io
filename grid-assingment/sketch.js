@@ -1,11 +1,12 @@
 // Escape the Maze Game
 // Shreya Saxena
-// 11th November, 2024
+// 15th November, 2024
 //
 // Extra for Experts:
 // - used the function filter()
 // - used the function some()
 // - used text features to enhance my project
+// - used loadSound() and .loop() to create background music
 
 
 
@@ -15,14 +16,15 @@ let rows;
 const CELL_SIZE = 50;
 let player;
 let exit;
-const PATH = 1;
-const WALL = 0;
+const PATH = 1; // Walkable places
+const WALL = 0; // Un-walkable places
 let floodImg;
 let wallImg;
 let pathTile;
 let playerImg;
 let exitImg;
-let floodCells = [];
+let music;
+let floodCells = []; // Keeps track of which cells to flood
 let floodInterval = 450; // Interval in milliseconds between floods
 let gameStarted = false;
 let gameOver = false;
@@ -30,6 +32,8 @@ let floodStarted = false;
 let lastFloodTime = 0; // To track the time of the last flood
 let playerMoved = false; // Flag to track if player has moved
 let playerMoves = 0; // To track how many moves the player has made before being affected by flood
+
+
 
 // Hardcoded grid layout (1 = path, 0 = wall)
 let hardcodedGrid = [
@@ -46,46 +50,69 @@ let hardcodedGrid = [
 ];
 
 
+// This function preloads all the external files that will be used in the function
 function preload() {
   floodImg = loadImage("floodImg.png");
   wallImg = loadImage("wall-Img.png");
   pathTile = loadImage("walkableImg.jpg");
   playerImg = loadImage("playerImg.png");
   exitImg = loadImage("exitImg.png");
+
+  // Loads the music
+  music = loadSound("bgmusic.mp3");
 }
 
-
+// Creates canvas, player starting coordinates, exit coordinates and initiates the lava flood
 function setup() {
   createCanvas(550, 550); 
+
+  // Height of the grid
   cols = hardcodedGrid[0].length;
+
+  // Length of the grid
   rows = hardcodedGrid.length;
+
+  // Player starting coordinates
   player = { 
     x: 0, 
     y: 0 }; // Start position
+
+  // Exit coordinates
   exit = {
     x: cols - 1, 
     y: rows - 1 }; // Exit position
   floodCells.push({ x: player.x, y: player.y }); // Start flooding from the player position
 }
 
+
+ 
 function draw() {
+  // once this state happens the start screen is activated
   if (!gameStarted) {
     startScreen();
   }
+
+  // once this state happens the end screen is activate
   else if (gameOver) {
     endScreen();
   }
+
+  // Displayed the grid, player and the exit target
   else {
     background(255);
     drawGrid();
     drawPlayer();
     drawExit();
 
+    // Once the player has made 3 moves, then display the lava flood
     if (playerMoves === 3) {
       drawFlood();
     }
 
+    // Checks win situation
     winOrLose();
+
+    // Decides when it should flood
     floodTime(); 
   }
 }
@@ -93,38 +120,55 @@ function draw() {
 
 
 function startScreen() {
+  // Looping music
+  music.loop();
+
+  // Set a background for the start screen
   background("lightblue");
+
+  // Aligns the text and prints it onto the canvas
   textAlign(CENTER);
   fill(0);
   textSize(24);
   text("Maze Escape", width / 2, height / 2 - 40);
   textSize(16);
-  text("Press the SPACE key and then any arrow to start", width / 2, height / 2 + 10);
+  text("Press the SPACE key", width / 2, height / 2 + 10);
   text("Use the Left, Right, Up and Down arrow to naviagte the maze", width / 2, height / 2 + 30);
   text("Move quickly to avoid the lava!", width / 2, height / 2 + 50);
 }
 
 function endScreen() {
+  // Set a background for the end screen
   background("lightcoral");
+
+  // Aligns the text and prints it onto the canvas
   textAlign(CENTER);
   fill(0);
   textSize(32);
+
+  // If the player escapes...
   if (player.x === exit.x && player.y === exit.y) {
     text("The lava did not cook you!", width / 2, height / 2);
     text("Good Job!", width / 2, height / 2 + 40);
   }
+
+  // If the player loses...
   else {
     text("The lava cooked you!", width / 2, height / 2);
-    text("To try again, press Ctrl + R.", width / 2, height / 2 + 40);
+    text("Refresh to try again", width / 2, height / 2 + 40);
   }
 }
 
+// Uses 2D arrays and nested loops to create the grid
 function drawGrid() {
   for (let y = 0; y < rows; y++) {
     for (let x = 0; x < cols; x++) {
+
+      // If the number in the hardcoded grid = 1
       if (hardcodedGrid[y][x] === PATH) {
-        image(pathTile, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE); // White for walkable paths
+        image(pathTile, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE); // For walkable paths
       } 
+      // If the number in the hardcoded grid = 0
       else {
         image(wallImg, x * CELL_SIZE, y * CELL_SIZE, CELL_SIZE, CELL_SIZE); // Wood for walls
       }
@@ -133,18 +177,23 @@ function drawGrid() {
 }
 
 
+// Displays the player
 function drawPlayer() {
   fill("blue");
   noStroke();
   image(playerImg, player.x * CELL_SIZE, player.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
+
+// Creates an exit target
 function drawExit() {
   fill("lightcoral");
   noStroke();
   image(exitImg, exit.x * CELL_SIZE, exit.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
+
+// Displays the lava flood
 function drawFlood() {
   fill(150, 0, 255, 100);
   for (let cell of floodCells) {
@@ -152,10 +201,14 @@ function drawFlood() {
   }
 }
 
+
+// Checks whether the cell is flooded or not
 function isFlooded(x, y) {
   return floodCells.some(cell => cell.x === x && cell.y === y);
 }
 
+
+// Actually floods the maze
 function floodMaze() {
   let floodedCount = floodCells.length;
   if (floodedCount < cols * rows - 1) {
@@ -173,7 +226,7 @@ function floodMaze() {
   }
 }
 
-// Get neighboring cells (left, right, up, down)
+// Get neighboring cells (left, right, up, down) to see if the cell should be flooded
 function getNeighbors(x, y) {
   let neighbors = [];
   if (x > 0) {
@@ -191,6 +244,8 @@ function getNeighbors(x, y) {
   return neighbors;
 }
 
+
+// If the key is pressed
 function keyPressed() {
   if (!gameStarted && key === " ") {
     gameStarted = true;
@@ -223,6 +278,8 @@ function keyPressed() {
   }
 }
 
+
+// Moves the player
 function movePlayer(dx, dy) {
   let newX = player.x + dx;
   let newY = player.y + dy;
@@ -235,11 +292,14 @@ function movePlayer(dx, dy) {
 }
 
 
+// Check for win or loss
 function winOrLose() {
-  // Check for win or loss
+  // If wins...
   if (player.x === exit.x && player.y === exit.y) {
     gameOver = true;
   }
+
+  // If loses...
   else if (isFlooded(player.x, player.y) && playerMoves >= 3) {
     gameOver = true;
   }
