@@ -6,7 +6,9 @@
 // - used the function filter()
 // - used the function some()
 // - used text features to enhance my project
-// - used loadSound() and .loop() to create background music
+// - used loadSound() and play() to create background music
+// - used music.loop() to loop the background music
+// - used soundEffect.amp() to change the volume of the sound effect
 
 
 
@@ -24,6 +26,9 @@ let pathTile;
 let playerImg;
 let exitImg;
 let music;
+let soundEffect;
+let celebration;
+let lost;
 let floodCells = []; // Keeps track of which cells to flood
 let floodInterval = 450; // Interval in milliseconds between floods
 let gameStarted = false;
@@ -60,6 +65,9 @@ function preload() {
 
   // Loads the music
   music = loadSound("bgmusic.mp3");
+  soundEffect = loadSound("sound-effect.mp3");
+  celebration = loadSound("celebrationMusic.mp3");
+  lost = loadSound("gameOver.mp3");
 }
 
 // Creates canvas, player starting coordinates, exit coordinates and initiates the lava flood
@@ -121,6 +129,7 @@ function draw() {
 
 function startScreen() {
   // Looping music
+  music.amp(0.3);
   music.loop();
 
   // Set a background for the start screen
@@ -132,9 +141,9 @@ function startScreen() {
   textSize(24);
   text("Maze Escape", width / 2, height / 2 - 40);
   textSize(16);
-  text("Press the SPACE key", width / 2, height / 2 + 10);
-  text("Use the Left, Right, Up and Down arrow to naviagte the maze", width / 2, height / 2 + 30);
-  text("Move quickly to avoid the lava!", width / 2, height / 2 + 50);
+  text("Click anywhere to start", width / 2, height / 2 + 10);
+  text("Use the Left, Right, Up and Down arrow to naviagte the maze", width / 2, height / 2 + 40);
+  text("Move quickly to avoid the lava!", width / 2, height / 2 + 70);
 }
 
 function endScreen() {
@@ -245,12 +254,17 @@ function getNeighbors(x, y) {
 }
 
 
-// If the key is pressed
-function keyPressed() {
-  if (!gameStarted && key === " ") {
+// If mouse is clicked
+function mouseClicked() {
+  if (!gameStarted && mouseX <= width && mouseX >= 0 && mouseY <= height && mouseY >= 0) {
     gameStarted = true;
   }
+}
 
+
+
+// If the key is pressed
+function keyPressed() {
   // Start the flood only after the player has moved once
   if (!playerMoved) {
     playerMoved = true;
@@ -261,15 +275,22 @@ function keyPressed() {
   if (!gameOver) {
     if (keyCode === LEFT_ARROW) {
       movePlayer(-1, 0);
+      soundEffect.play();
     }
     else if (keyCode === RIGHT_ARROW) {
       movePlayer(1, 0);
+      soundEffect.amp(1);
+      soundEffect.play();
     }
     else if (keyCode === UP_ARROW) {
       movePlayer(0, -1);
+      soundEffect.amp(1);
+      soundEffect.play();
     }
     else if (keyCode === DOWN_ARROW) {
       movePlayer(0, 1);
+      soundEffect.amp(1);
+      soundEffect.play();
     }
 
     if (playerMoves < 3) {
@@ -296,12 +317,21 @@ function movePlayer(dx, dy) {
 function winOrLose() {
   // If wins...
   if (player.x === exit.x && player.y === exit.y) {
+    // Background music ends
+    soundEffect.stop();
+    music.stop();
     gameOver = true;
+    celebration.play();
   }
 
   // If loses...
   else if (isFlooded(player.x, player.y) && playerMoves >= 3) {
+    // Background music ends
+    soundEffect.stop();
+    music.stop();
+    lost.play();
     gameOver = true;
+
   }
 }
 

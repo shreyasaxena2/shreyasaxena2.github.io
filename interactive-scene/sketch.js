@@ -44,7 +44,7 @@ function preload() {
   fclickimg = loadFont("clickfont.ttf");
 
   cake = loadImage("bdaycakeimg.png");
-    gifLoadImg = loadImage("birthdaygif.gif");
+  gifLoadImg = loadImage("birthdaygif.gif");
 
 }
 
@@ -78,24 +78,24 @@ function startScreen() {
 function keyPressed() { 
   // If the space bar is pressed...
   if (keyIsDown(32) ) {
-  background("#A7C7E7"); // pastel blue background
+    background("#A7C7E7"); // pastel blue background
 
-  // Aligns and prints the text on the main screen
-  textAlign(CENTER, CENTER);
-  textSize(70);
-  textFont(fHbd);
-  text("Happy Birthday Medha!!", width/2.2, height/4.5);
-  textSize(65);
-  text("Have the best day ever!!", width/1.25, height/1.5);
+    // Aligns and prints the text on the main screen
+    textAlign(CENTER, CENTER);
+    textSize(70);
+    textFont(fHbd);
+    text("Happy Birthday Medha!!", width/2.2, height/4.5);
+    textSize(65);
+    text("Have the best day ever!!", width/1.25, height/1.5);
 
-  // Only when this function is called do the balloons pop up
-  clickableImage();
+    // Only when this function is called do the balloons pop up
+    clickableImage();
 
-  // It is only after the start screen dissappears that the mouse should be clicked
-  mouseClicked();
+    // It is only after the start screen dissappears that the mouse should be clicked
+    mouseClicked();
 
-  // The collage pictures will only show up after the space bar has been pressed
-  collagePictures();
+    // The collage pictures will only show up after the space bar has been pressed
+    collagePictures();
   }
 }
   
@@ -114,7 +114,7 @@ function clickableImage() {
 // This function makes the cake, song and the GIF pop up once the mouse is clicked where the balloon is
 function mouseClicked() {
 
-    // The image can only be clicked if the mouse is between starting coordinate of the image and its width/height and isPlaying is false
+  // The image can only be clicked if the mouse is between starting coordinate of the image and its width/height and isPlaying is false
   if (mouseX <= balloons.width && mouseX >= width - balloons.width * 2.7 && (mouseY <= balloons.height && mouseY >= balloons.height * 0.1) && isPlaying === false){
     
     // This plays the song and the image of the cake pops up
