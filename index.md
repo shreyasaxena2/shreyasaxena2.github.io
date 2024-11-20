@@ -17,6 +17,7 @@
 - [Walker OOP](walker-oop)
 - [Walker OOP Array](walker-oop-array)
 - [Fireworks OOp](fireworks-oop)
+- [Connected Nodes]{connected-nodes-oop}
 
 
 ## Projects
