@@ -19,6 +19,7 @@
 - [Fireworks OOp](fireworks-oop)
 - [Connected Nodes](connected-nodes-oop)
 - [Collide](collide)
+- [Local Storage](local-storage)
 
 
 ## Projects
