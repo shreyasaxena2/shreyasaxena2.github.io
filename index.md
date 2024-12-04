@@ -20,6 +20,7 @@
 - [Connected Nodes](connected-nodes-oop)
 - [Collide](collide)
 - [Local Storage](local-storage)
+- [Inheritance Demo](inheritance)
 
 
 ## Projects
