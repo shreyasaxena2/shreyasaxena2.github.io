@@ -21,7 +21,8 @@
 - [Collide](collide)
 - [Local Storage](local-storage)
 - [Inheritance Demo](inheritance)
-
+- [Fractal Circle](fractle-circle)
+- [Serpinski Triangle](serpinski-traingle)
 
 ## Projects
 - [Interactive Scene](interactive-scene)
